@@ -62,6 +62,17 @@ public class Lista_Arista {
         this.pSize = pSize;
     }
 
+    public void insertar(Nodo_Vertice pDato, int costo) {
+        Nodo_Arista n = new Nodo_Arista(pDato, costo);
+        if (this.pFirst == null) {
+            this.pFirst = this.pLast = n;
+        } else {
+            this.pLast.setpNext(n);
+            this.setpLast(n);
+        }
+        this.pSize++;
+    }
+
     
 
 }
