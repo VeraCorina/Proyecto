@@ -97,6 +97,36 @@ public class Grafo_Vertices {
         }
     }
 
+    public void eliminarVertice(String pDato) {
+        if (this.pFirst != null) {
+            if (this.pFirst.getpDato().equals(pDato)) {
+                this.pFirst = this.pFirst.getpNext();
+                if (this.pFirst == null) {
+                    this.pLast = null;
+                }
+                this.pSize--;
+            } else {
+                Nodo_Vertice pAux = this.pFirst;
+                while (pAux.getpNext() != null && !pAux.getpNext().getpDato().equals(pDato)) {
+                    pAux = pAux.getpNext();
+                }
+                if (pAux.getpNext() != null) {
+                    if (pAux.getpNext() == this.pLast) {
+                        this.pLast = pAux;
+                    }
+                    pAux.setpNext(pAux.getpNext().getpNext());
+                    this.pSize--;
+                }
+            }
+
+            Nodo_Vertice pActual = this.pFirst;
+            while (pActual != null) {
+                pActual.getLista_Aristas().eliminar(pDato);
+                pActual = pActual.getpNext();
+            }
+        }
+    }
+
     
     
 }
