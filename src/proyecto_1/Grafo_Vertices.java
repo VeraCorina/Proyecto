@@ -62,7 +62,6 @@ public class Grafo_Vertices {
         this.pSize = pSize;
     }
 
-    
     public void insertarVertice(String pDato) {
         if (buscarVertice(pDato) == null) {
             Nodo_Vertice nuevo = new Nodo_Vertice(pDato);
@@ -87,13 +86,13 @@ public class Grafo_Vertices {
         return null;
     }
 
-
-    
     public void insertarArista(String origen, String destino, int costo) {
         Nodo_Vertice vOrigen = buscarVertice(origen);
         Nodo_Vertice vDestino = buscarVertice(destino);
         if (vOrigen != null && vDestino != null) {
             vOrigen.getLista_Aristas().insertar(vDestino, costo);
+            vDestino.getLista_Aristas().insertar(vOrigen, costo);
+
         }
     }
 
@@ -139,5 +138,65 @@ public class Grafo_Vertices {
         }
         return resultado;
     }
+
+    public String recorridoDFS() {
+        String recorrido = "";
+
+        Nodo_Vertice aux = this.pFirst;
+
+        while (aux != null) {
+            if (!aux.visitado) {
+                recorrido += this.dfs(recorrido, aux);
+            }
+            aux = aux.getpNext();
+        }
+        return recorrido;
+    }
+
+    public String dfs(String resultado, Nodo_Vertice aux) {
+        resultado += aux.getpDato() + ", ";
+        aux.visitado = true;
+
+        Nodo_Arista aux2 = aux.getLista_Aristas().getpFirst();
+        while (aux2 != null) {
+            if (!aux2.getpData().visitado) {
+                resultado = this.dfs(resultado, aux2.getpData());
+            }
+            aux2 = aux2.getpNext();
+        }
+        this.reinicio();
+        return resultado;
+    }
+
+    public String bfs() {
+        String recorrido = "";
+        Nodo_Vertice aux = this.pFirst;
+        Cola c = new Cola();
+        c.encolar(this.pFirst);
+        while (c.pFirst != null) {
+            recorrido += aux.getpDato()+ ", ";
+            Nodo_Arista aux2 = aux.getLista_Aristas().getpFirst();
+
+            while (aux2 != null) {
+                if (!aux2.getpData().visitado) {
+                    aux2.getpData().visitado = true;
+                    c.encolar(aux2.getpData());
+                }
+                aux2 = aux2.getpNext();
+            }
+            
+            aux = c.desencolar().getpDato();
+        }
+        this.reinicio();
+        return recorrido;
+    }
     
+    public void reinicio(){
+        Nodo_Vertice aux = this.pFirst;
+        while(aux!= null){
+            aux.visitado = false;
+            aux = aux.getpNext();
+        }
+        
+    }
 }
