@@ -62,6 +62,31 @@ public class Grafo_Vertices {
         this.pSize = pSize;
     }
 
+    
+    public void insertarVertice(String pDato) {
+        if (buscarVertice(pDato) == null) {
+            Nodo_Vertice nuevo = new Nodo_Vertice(pDato);
+            if (this.pFirst == null) {
+                this.pFirst = this.pLast = nuevo;
+            } else {
+                this.pLast.setpNext(nuevo);
+                this.pLast = nuevo;
+            }
+            this.pSize++;
+        }
+    }
+
+    public Nodo_Vertice buscarVertice(String pDato) {
+        Nodo_Vertice pAux = this.pFirst;
+        while (pAux != null) {
+            if (pAux.getpDato().equals(pDato)) {
+                return pAux;
+            }
+            pAux = pAux.getpNext();
+        }
+        return null;
+    }
+
 
     
 }
