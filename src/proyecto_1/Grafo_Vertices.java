@@ -89,4 +89,14 @@ public class Grafo_Vertices {
 
 
     
+    public void insertarArista(String origen, String destino, int costo) {
+        Nodo_Vertice vOrigen = buscarVertice(origen);
+        Nodo_Vertice vDestino = buscarVertice(destino);
+        if (vOrigen != null && vDestino != null) {
+            vOrigen.getLista_Aristas().insertar(vDestino, costo);
+        }
+    }
+
+    
+    
 }
