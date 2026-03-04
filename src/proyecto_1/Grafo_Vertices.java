@@ -127,6 +127,17 @@ public class Grafo_Vertices {
         }
     }
 
-    
+    public String imprimirGrafo() {
+        String resultado = "";
+        Nodo_Vertice pAux = this.pFirst;
+        if (pAux == null) {
+            return "";
+        }
+        while (pAux != null) {
+            resultado += "Vertice [" + pAux.getpDato() + "]: " + pAux.getLista_Aristas().verListaAristas() + "\n";
+            pAux = pAux.getpNext();
+        }
+        return resultado;
+    }
     
 }
