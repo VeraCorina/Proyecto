@@ -73,6 +73,22 @@ public class Lista_Arista {
         this.pSize++;
     }
 
-    
+    public void eliminar(String pDato) {
+        if (this.pFirst != null) {
+            Nodo_Arista pAux = this.getpFirst();
+            if (pAux.getpData().equals(pDato)) {
+                this.setpFirst(this.getpFirst().getpNext());
+            } else {
+                while (pAux.getpNext() != null && !pAux.getpNext().getpData().equals(pDato)) {
+                    pAux = pAux.getpNext();
+                }
 
+                if (pAux.getpNext() != null) {
+                    pAux.setpNext(pAux.getpNext().getpNext());
+                }
+            }
+        }
+    }
+
+    
 }
