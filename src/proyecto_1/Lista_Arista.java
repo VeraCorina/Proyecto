@@ -90,5 +90,16 @@ public class Lista_Arista {
         }
     }
 
+    public Nodo_Arista buscar(String pDato) {
+        if (this.pFirst != null) {
+            Nodo_Arista pAux = this.getpFirst();
+            while (pAux != null && !pAux.getpData().equals(pDato)) {
+                pAux = pAux.getpNext();
+            }
+            return pAux;
+        }
+        return null;
+    }
+    
     
 }
