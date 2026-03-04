@@ -1,0 +1,67 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package proyecto_1;
+
+/**
+ *
+ * @author coco
+ */
+public class Lista_Arista {
+
+    private Nodo_Arista pFirst;
+    private Nodo_Arista pLast;
+    private int pSize;
+
+    public Lista_Arista() {
+        this.pFirst = null;
+        this.pLast = null;
+        this.pSize = 0;
+    }
+
+    /**
+     * @return the pFirst
+     */
+    public Nodo_Arista getpFirst() {
+        return pFirst;
+    }
+
+    /**
+     * @param pFirst the pFirst to set
+     */
+    public void setpFirst(Nodo_Arista pFirst) {
+        this.pFirst = pFirst;
+    }
+
+    /**
+     * @return the pLast
+     */
+    public Nodo_Arista getpLast() {
+        return pLast;
+    }
+
+    /**
+     * @param pLast the pLast to set
+     */
+    public void setpLast(Nodo_Arista pLast) {
+        this.pLast = pLast;
+    }
+
+    /**
+     * @return the pSize
+     */
+    public int getpSize() {
+        return pSize;
+    }
+
+    /**
+     * @param pSize the pSize to set
+     */
+    public void setpSize(int pSize) {
+        this.pSize = pSize;
+    }
+
+    
+
+}
