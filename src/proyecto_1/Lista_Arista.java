@@ -101,5 +101,27 @@ public class Lista_Arista {
         return null;
     }
     
+    public String verListaAristas(){
+       
+        String listaStr = "";
+        Nodo_Arista pAux = this.pFirst;
+
+        if (pAux == null) {
+            return "La lista de aristas está vacía.";
+        }
+
+        while (pAux != null) {
+            listaStr += "[Destino: " + pAux.getpData() + " | Costo  Interaccion: " + pAux.getCosto_Interaccion()+ "]";
+            
+            pAux = pAux.getpNext();
+
+            if (pAux != null) {
+                listaStr += " -> ";
+            }
+        }
+
+        return listaStr;
     
+    }
+
 }
