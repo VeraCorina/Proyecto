@@ -12,11 +12,13 @@ public class Nodo_Vertice {
     private String pDato;
     private Nodo_Vertice pNext;
     private Lista_Arista lista_Aristas;
+    public boolean visitado;
 
     public Nodo_Vertice(String pDato) {
         this.pDato = pDato;
         this.pNext = null;
         this.lista_Aristas = new Lista_Arista();
+        this.visitado = false;
     }
 
     /**
