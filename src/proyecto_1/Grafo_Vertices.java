@@ -274,4 +274,32 @@ public class Grafo_Vertices {
         this.reinicio();
         return "Ruta Metabolica: " + ruta + "\nCosto Total: " + (int) destino.distancia;
     }
+    
+    public String identificarHubs() {
+        if (this.pFirst == null) {
+            return "vACIO";
+        }
+
+        Nodo_Vertice maxHub = this.pFirst;
+        int maxGrado = this.pFirst.getLista_Aristas().getpSize();
+
+        String reporte = "REPORTE DE CENTRALIDAD DE GRADO (HUBS):\n";
+        Nodo_Vertice aux = this.pFirst;
+
+        while (aux != null) {
+            int gradoActual = aux.getLista_Aristas().getpSize();
+            reporte += "- Protenia: " + aux.getpDato() + " | Grado: " + gradoActual + "\n";
+
+            if (gradoActual > maxGrado) {
+                maxGrado = gradoActual;
+                maxHub = aux;
+            }
+            aux = aux.getpNext();
+        }
+
+        reporte += "\nDIANA TERAPETICA PRIMARIA:\n";
+        reporte += "La proteina más esencial es " + maxHub.getpDato() + " con " + maxGrado + " conexiones";
+        
+        return reporte;
+    }
 }
