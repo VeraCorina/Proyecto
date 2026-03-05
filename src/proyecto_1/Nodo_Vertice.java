@@ -14,7 +14,6 @@ public class Nodo_Vertice {
     private Nodo_Vertice pNext;
     private Lista_Arista lista_Aristas;
     public boolean visitado;
-// Agrega esto a tus atributos de Nodo_Vertice
     public double distancia;
     public Nodo_Vertice anterior;
 
