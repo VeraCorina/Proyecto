@@ -69,6 +69,7 @@ public class Grafo_Vertices {
                 this.pFirst = this.pLast = nuevo;
             } else {
                 this.pLast.setpNext(nuevo);
+                nuevo.anterior = pLast;
                 this.pLast = nuevo;
             }
             this.pSize++;
@@ -102,6 +103,8 @@ public class Grafo_Vertices {
                 this.pFirst = this.pFirst.getpNext();
                 if (this.pFirst == null) {
                     this.pLast = null;
+                } else {
+                    this.pFirst.anterior = null;
                 }
                 this.pSize--;
             } else {
@@ -114,6 +117,9 @@ public class Grafo_Vertices {
                         this.pLast = pAux;
                     }
                     pAux.setpNext(pAux.getpNext().getpNext());
+                    if (pAux.getpNext() != null) {
+                        pAux.getpNext().anterior = pAux;
+                    }
                     this.pSize--;
                 }
             }
@@ -174,7 +180,7 @@ public class Grafo_Vertices {
         Cola c = new Cola();
         c.encolar(this.pFirst);
         while (c.pFirst != null) {
-            recorrido += aux.getpDato()+ ", ";
+            recorrido += aux.getpDato() + ", ";
             Nodo_Arista aux2 = aux.getLista_Aristas().getpFirst();
 
             while (aux2 != null) {
@@ -184,19 +190,88 @@ public class Grafo_Vertices {
                 }
                 aux2 = aux2.getpNext();
             }
-            
+
             aux = c.desencolar().getpDato();
         }
         this.reinicio();
         return recorrido;
     }
-    
-    public void reinicio(){
+
+    public void reinicio() {
         Nodo_Vertice aux = this.pFirst;
-        while(aux!= null){
+        while (aux != null) {
             aux.visitado = false;
             aux = aux.getpNext();
         }
-        
+
+    }
+
+    public String dijkstra(String nombreOrigen, String nombreDestino) {
+        Nodo_Vertice origen = buscarVertice(nombreOrigen);
+        Nodo_Vertice destino = buscarVertice(nombreDestino);
+
+        if (origen == null || destino == null) {
+            return "Prooteinas no encontradas";
+        }
+
+        Nodo_Vertice temp = this.getpFirst();
+        while (temp != null) {
+            temp.distancia = Double.POSITIVE_INFINITY;
+            temp.anterior = null;
+            temp.visitado = false;
+            temp = temp.getpNext();
+        }
+
+        origen.distancia = 0;
+        for (int i = 0; i < this.getpSize(); i++) {
+            Nodo_Vertice u = null;
+            double min = Double.POSITIVE_INFINITY;
+            Nodo_Vertice nodoActual = this.getpFirst();
+
+            while (nodoActual != null) {
+                if (!nodoActual.visitado && nodoActual.distancia < min) {
+                    min = nodoActual.distancia;
+                    u = nodoActual;
+                }
+                nodoActual = nodoActual.getpNext();
+            }
+
+            if (u == null) {
+                break;
+            }
+
+            u.visitado = true;
+            if (u == destino) {
+                break;
+            }
+            Nodo_Arista aristaAux = u.getLista_Aristas().getpFirst();
+            while (aristaAux != null) {
+                Nodo_Vertice v = aristaAux.getpData();
+                if (!v.visitado) {
+                    double peso = aristaAux.getCosto_Interaccion();
+                    double nuevaDistancia = u.distancia + peso;
+
+                    if (nuevaDistancia < v.distancia) {
+                        v.distancia = nuevaDistancia;
+                        v.anterior = u;
+                    }
+                }
+                aristaAux = aristaAux.getpNext();
+            }
+        }
+
+        if (destino.distancia == Double.POSITIVE_INFINITY) {
+            return "No existe una ruta metaboica entre " + nombreOrigen + " y " + nombreDestino;
+        }
+
+        String ruta = "";
+        Nodo_Vertice paso = destino;
+        while (paso != null) {
+            ruta = paso.getpDato() + (ruta.isEmpty() ? "" : " -> ") + ruta;
+            paso = paso.anterior;
+        }
+
+        this.reinicio();
+        return "Ruta Metabolica: " + ruta + "\nCosto Total: " + (int) destino.distancia;
     }
 }
