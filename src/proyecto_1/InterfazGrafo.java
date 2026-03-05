@@ -6,7 +6,7 @@ package proyecto_1;
 
 /**
  *
- * @author andre
+ * @author Nato
  */
 public class InterfazGrafo extends javax.swing.JFrame {
     
