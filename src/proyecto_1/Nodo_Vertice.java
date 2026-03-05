@@ -9,10 +9,14 @@ package proyecto_1;
  * @author coco
  */
 public class Nodo_Vertice {
+
     private String pDato;
     private Nodo_Vertice pNext;
     private Lista_Arista lista_Aristas;
     public boolean visitado;
+// Agrega esto a tus atributos de Nodo_Vertice
+    public double distancia;
+    public Nodo_Vertice anterior;
 
     public Nodo_Vertice(String pDato) {
         this.pDato = pDato;
@@ -63,5 +67,4 @@ public class Nodo_Vertice {
         this.lista_Aristas = lista_Aristas;
     }
 
-    
 }
