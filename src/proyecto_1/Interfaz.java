@@ -4,12 +4,22 @@
  */
 package proyecto_1;
 
+import java.awt.BorderLayout;
+import org.graphstream.algorithm.util.FibonacciHeap.Node;
+import org.graphstream.graph.Edge;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.swing_viewer.SwingViewer;
+import org.graphstream.ui.swing_viewer.ViewPanel;
+import org.graphstream.ui.view.Viewer;
+
 /**
  *
  * @author coco
  */
 public class Interfaz extends javax.swing.JFrame {
-    
+
+    Grafo_Vertices g;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Interfaz.class.getName());
 
     /**
@@ -17,6 +27,106 @@ public class Interfaz extends javax.swing.JFrame {
      */
     public Interfaz() {
         initComponents();
+    }
+
+    private void dibujarGrafo() {
+        if (this.g == null || this.g.getpFirst() == null) {
+            return;
+        }
+
+        System.setProperty("org.graphstream.ui", "swing");
+        Graph graph = new SingleGraph("BioGraph_Proteinas");
+
+        String stylesheet
+                = "node {"
+                + "   fill-color: #CCCCCC;"
+                + "   size: 30px;"
+                + "   text-size: 14px;"
+                + "   text-alignment: at-right;"
+                + "   text-color: black;"
+                + "   stroke-mode: plain;"
+                + "   stroke-color: #333333;"
+                + "}"
+                + "edge {"
+                + "   fill-color: #666666;"
+                + "   text-size: 12px;"
+                + "}";
+        graph.setAttribute("ui.stylesheet", stylesheet);
+
+        Nodo_Vertice vAux = g.getpFirst();
+        while (vAux != null) {
+
+            graph.addNode(vAux.getpDato()).setAttribute("ui.label", vAux.getpDato());
+            vAux = vAux.getpNext();
+        }
+
+        vAux = g.getpFirst();
+        int edgeId = 0;
+        while (vAux != null) {
+            Nodo_Arista aAux = vAux.getLista_Aristas().getpFirst();
+            while (aAux != null) {
+                String idEdge = vAux.getpDato() + "-" + aAux.getpData().getpDato();
+                String idEdgeInv = aAux.getpData().getpDato() + "-" + vAux.getpDato();
+
+                if (graph.getEdge(idEdge) == null && graph.getEdge(idEdgeInv) == null) {
+                    Edge e = graph.addEdge(String.valueOf(edgeId++),
+                            vAux.getpDato(),
+                            aAux.getpData().getpDato(),
+                            false);
+                    e.setAttribute("ui.label", aAux.getCosto_Interaccion());
+                }
+                aAux = aAux.getpNext();
+            }
+            vAux = vAux.getpNext();
+        }
+
+        aplicarColoresPorComplejo(graph);
+
+        Viewer viewer = new SwingViewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+        viewer.enableAutoLayout();
+        ViewPanel viewPanel = (ViewPanel) viewer.addDefaultView(false);
+
+        pan.removeAll();
+        pan.setLayout(new BorderLayout());
+        pan.add(viewPanel, BorderLayout.CENTER);
+        pan.revalidate();
+        pan.repaint();
+    }
+
+    private void aplicarColoresPorComplejo(Graph graph) {
+        String[] paletaColores = {"#FF5733", "#33FF57", "#3357FF", "#F333FF", "#FF33A1", "#33FFF5"};
+        int colorIdx = 0;
+
+        g.reinicio();
+        Nodo_Vertice actual = g.getpFirst();
+
+        while (actual != null) {
+            if (!actual.visitado) {
+                String color = paletaColores[colorIdx % paletaColores.length];
+
+                marcarComplejoVisual(actual, color, graph);
+
+                colorIdx++;
+            }
+            actual = actual.getpNext();
+        }
+        g.reinicio();
+    }
+
+    private void marcarComplejoVisual(Nodo_Vertice nodo, String color, Graph graph) {
+        nodo.visitado = true;
+        Node n = (Node) graph.getNode(nodo.getpDato());
+        if (n != null) {
+            graph.getNode(nodo.getpDato()).setAttribute("ui.style", "fill-color: " + color + ";");
+        }
+
+        Nodo_Arista arista = nodo.getLista_Aristas().getpFirst();
+        while (arista != null) {
+            if (!arista.getpData().visitado) {
+                marcarComplejoVisual(arista.getpData(), color, graph);
+            }
+            arista = arista.getpNext();
+        }
     }
 
     /**
@@ -28,13 +138,13 @@ public class Interfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        pan = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 500));
+        pan.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(pan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -65,6 +175,6 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel pan;
     // End of variables declaration//GEN-END:variables
 }
