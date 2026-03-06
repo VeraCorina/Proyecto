@@ -8,12 +8,20 @@ package proyecto_1;
  *
  * @author coco
  */
+/**
+ * esta clase maneja las conexiones de cada nodo
+ * es basicamente una lista enlazada de las aristas
+ * * @author coco
+ */
 public class Lista_Arista {
 
     private Nodo_Arista pFirst;
     private Nodo_Arista pLast;
     private int pSize;
 
+    /**
+     * constructor por defecto para la lista de aristas
+     */
     public Lista_Arista() {
         this.pFirst = null;
         this.pLast = null;
@@ -21,47 +29,58 @@ public class Lista_Arista {
     }
 
     /**
-     * @return the pFirst
+     * devuelve la primera arista de la lista
+     * @return la pFirst
      */
     public Nodo_Arista getpFirst() {
         return pFirst;
     }
 
     /**
-     * @param pFirst the pFirst to set
+     * pone una arista como la primera de la lista
+     * @param pFirst la arista nueva
      */
     public void setpFirst(Nodo_Arista pFirst) {
         this.pFirst = pFirst;
     }
 
     /**
-     * @return the pLast
+     * dame la ultima arista que se agrego
+     * @return la pLast
      */
     public Nodo_Arista getpLast() {
         return pLast;
     }
 
     /**
-     * @param pLast the pLast to set
+     * setea cual es la ultima arista horita
+     * @param pLast la arista final
      */
     public void setpLast(Nodo_Arista pLast) {
         this.pLast = pLast;
     }
 
     /**
-     * @return the pSize
+     * dice cuantas aristas tiene este vertice
+     * @return el tamaño pSize
      */
     public int getpSize() {
         return pSize;
     }
 
     /**
-     * @param pSize the pSize to set
+     * para cambiar el tamaño de la lista de aristas
+     * @param pSize el numero de aristas
      */
     public void setpSize(int pSize) {
         this.pSize = pSize;
     }
 
+    /**
+     * inserta una arista nueva conectando a otro nodo
+     * @param pDato el nodo destino
+     * @param costo el valor de la conexion
+     */
     public void insertar(Nodo_Vertice pDato, int costo) {
         Nodo_Arista n = new Nodo_Arista(pDato, costo);
         if (this.pFirst == null) {
@@ -73,6 +92,10 @@ public class Lista_Arista {
         this.pSize++;
     }
 
+    /**
+     * quita una conexion especifica
+     * @param pDato el nombre de la proteina a desconectar
+     */
     public void eliminar(String pDato) {
         if (this.pFirst != null) {
             Nodo_Arista pAux = this.pFirst;
@@ -101,6 +124,11 @@ public class Lista_Arista {
         }
     }
 
+    /**
+     * busca si existe una arista hacia tal proteina
+     * @param pDato el nombre buscado
+     * @return el nodo de la arista si existe
+     */
     public Nodo_Arista buscar(String pDato) {
         if (this.pFirst != null) {
             Nodo_Arista pAux = this.getpFirst();
@@ -112,6 +140,10 @@ public class Lista_Arista {
         return null;
     }
     
+    /**
+     * imprime bonito todas las aristas de este nodo
+     * @return un string con la lista de conexiones
+     */
     public String verListaAristas(){
        
         String listaStr = "";
