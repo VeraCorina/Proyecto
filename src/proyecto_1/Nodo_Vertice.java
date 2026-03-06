@@ -5,7 +5,8 @@
 package proyecto_1;
 
 /**
- *
+ * esta clase es el vertice del grafo osea cada proteina individual 
+ * tiene su propia lista de aristas para saber con quien interactua
  * @author coco
  */
 public class Nodo_Vertice {
@@ -17,6 +18,10 @@ public class Nodo_Vertice {
     public double distancia;
     public Nodo_Vertice anterior;
 
+    /**
+     * crea un vertice nuevo con el nombre de la proteina y su lista vacia
+     * @param pDato el nombre o id de la proteina
+     */
     public Nodo_Vertice(String pDato) {
         this.pDato = pDato;
         this.pNext = null;
@@ -25,45 +30,44 @@ public class Nodo_Vertice {
     }
 
     /**
-     * @return the pDato
+     * @return el nombre de la proteina guardada
      */
     public String getpDato() {
         return pDato;
     }
 
     /**
-     * @param pDato the pDato to set
+     * @param pDato cambia el nombre de la proteina en este nodo
      */
     public void setpDato(String pDato) {
         this.pDato = pDato;
     }
 
     /**
-     * @return the pNext
+     * @return el siguiente vertice en la lista de vertices del grafo
      */
     public Nodo_Vertice getpNext() {
         return pNext;
     }
 
     /**
-     * @param pNext the pNext to set
+     * @param pNext pone cual es el siguiente vertice en la secuencia
      */
     public void setpNext(Nodo_Vertice pNext) {
         this.pNext = pNext;
     }
 
     /**
-     * @return the lista_Aristas
+     * @return la lista de todas las aristas que salen de este nodo
      */
     public Lista_Arista getLista_Aristas() {
         return lista_Aristas;
     }
 
     /**
-     * @param lista_Aristas the lista_Aristas to set
+     * @param lista_Aristas setea una lista completa de conexiones
      */
     public void setLista_Aristas(Lista_Arista lista_Aristas) {
         this.lista_Aristas = lista_Aristas;
     }
-
 }
