@@ -35,6 +35,15 @@ public class ModifGrafo extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -43,21 +52,21 @@ public class ModifGrafo extends javax.swing.JFrame {
         pan.setForeground(new java.awt.Color(102, 102, 102));
         pan.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Verdana", 3, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Funciones de Busqueda");
-        pan.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
+        jLabel1.setText("Peso");
+        pan.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 500, -1, -1));
 
         jButton1.setBackground(new java.awt.Color(153, 153, 153));
         jButton1.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("jButton1");
-        pan.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, -1, -1));
+        jButton1.setText("Crear Relacion");
+        pan.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 530, -1, -1));
 
         jTextField1.setBackground(new java.awt.Color(153, 153, 153));
         jTextField1.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
         jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        pan.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 320, 200, -1));
+        pan.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 530, 110, -1));
 
         jTextArea1.setBackground(new java.awt.Color(153, 153, 153));
         jTextArea1.setColumns(20);
@@ -66,7 +75,7 @@ public class ModifGrafo extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        pan.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 190, -1, 230));
+        pan.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 210, -1, 360));
 
         jButton2.setBackground(new java.awt.Color(153, 153, 153));
         jButton2.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
@@ -75,7 +84,53 @@ public class ModifGrafo extends javax.swing.JFrame {
         jButton2.addActionListener(this::jButton2ActionPerformed);
         pan.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(802, 20, 160, 40));
 
-        getContentPane().add(pan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 590));
+        jButton3.setBackground(new java.awt.Color(153, 153, 153));
+        jButton3.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Agregar");
+        pan.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 210, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Verdana", 3, 48)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Modificar Grafo");
+        pan.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Proteinas actuales en el grafo");
+        pan.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 180, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Nombre de la Proteina");
+        pan.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, -1, -1));
+
+        jTextField2.setBackground(new java.awt.Color(153, 153, 153));
+        jTextField2.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
+        jTextField2.setForeground(new java.awt.Color(255, 255, 255));
+        pan.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 270, -1));
+
+        jTextField3.setBackground(new java.awt.Color(153, 153, 153));
+        jTextField3.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
+        jTextField3.setForeground(new java.awt.Color(255, 255, 255));
+        pan.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 270, -1));
+
+        jLabel5.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Nombre de la Proteina");
+        pan.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, -1, -1));
+
+        jTextField4.setBackground(new java.awt.Color(153, 153, 153));
+        jTextField4.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
+        jTextField4.setForeground(new java.awt.Color(255, 255, 255));
+        pan.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 450, 290, -1));
+
+        jLabel6.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Nombre de la otra Proteina");
+        pan.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 420, -1, -1));
+
+        getContentPane().add(pan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 640));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -114,10 +169,19 @@ public class ModifGrafo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JPanel pan;
     // End of variables declaration//GEN-END:variables
 }
