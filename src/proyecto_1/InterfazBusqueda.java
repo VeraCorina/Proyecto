@@ -11,12 +11,16 @@ package proyecto_1;
 public class InterfazBusqueda extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InterfazBusqueda.class.getName());
-
+    static Grafo_Vertices g;
     /**
      * Creates new form InterfazBusqueda
      */
-    public InterfazBusqueda() {
+    public InterfazBusqueda(Grafo_Vertices gr){
         initComponents();
+        g = gr;
+        this.proteinas.setText(g.ver_vertices());
+                this.setVisible(true);
+
     }
 
     /**
@@ -31,10 +35,15 @@ public class InterfazBusqueda extends javax.swing.JFrame {
         pan = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        ruta = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        proteinas = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        proteina1 = new javax.swing.JTextField();
+        proteina2 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -45,35 +54,64 @@ public class InterfazBusqueda extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Verdana", 3, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("MENU INICIAL");
-        pan.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, -1, -1));
+        jLabel1.setText("Ruta Metabolica mas Corta");
+        pan.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, -1));
 
         jButton1.setBackground(new java.awt.Color(153, 153, 153));
         jButton1.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("jButton1");
-        pan.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, -1, -1));
+        jButton1.setText("Buscar");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+        pan.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, 180, 40));
 
-        jTextField1.setBackground(new java.awt.Color(153, 153, 153));
-        jTextField1.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        pan.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 240, 200, -1));
-
-        jTextArea1.setBackground(new java.awt.Color(153, 153, 153));
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Verdana", 2, 18)); // NOI18N
-        jTextArea1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        pan.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 320, -1, 230));
+        ruta.setEditable(false);
+        ruta.setBackground(new java.awt.Color(153, 153, 153));
+        ruta.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
+        ruta.setForeground(new java.awt.Color(255, 255, 255));
+        pan.add(ruta, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 490, 530, -1));
 
         jButton2.setBackground(new java.awt.Color(153, 153, 153));
         jButton2.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Regresar");
         jButton2.addActionListener(this::jButton2ActionPerformed);
-        pan.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(802, 20, 160, 40));
+        pan.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 80, 160, 40));
+
+        proteinas.setEditable(false);
+        proteinas.setBackground(new java.awt.Color(153, 153, 153));
+        proteinas.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
+        proteinas.setForeground(new java.awt.Color(255, 255, 255));
+        pan.add(proteinas, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 210, 290, -1));
+
+        jLabel5.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Proteinas ");
+        pan.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 180, -1, -1));
+
+        jLabel6.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Nombre de la Proteina Origen");
+        pan.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, -1, -1));
+
+        proteina1.setBackground(new java.awt.Color(153, 153, 153));
+        proteina1.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
+        proteina1.setForeground(new java.awt.Color(255, 255, 255));
+        pan.add(proteina1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 210, 290, -1));
+
+        proteina2.setBackground(new java.awt.Color(153, 153, 153));
+        proteina2.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
+        proteina2.setForeground(new java.awt.Color(255, 255, 255));
+        pan.add(proteina2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 290, 290, -1));
+
+        jLabel7.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Nombre de la Proteina Destino");
+        pan.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, -1, -1));
+
+        jLabel8.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Ruta más corta");
+        pan.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 460, -1, -1));
 
         getContentPane().add(pan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 590));
 
@@ -82,9 +120,18 @@ public class InterfazBusqueda extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        Interfaz inter = new Interfaz();
+        Interfaz inter = new Interfaz(g);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String p = this.proteina1.getText();
+        String m = this.proteina2.getText();
+        
+        this.ruta.setText(g.dijkstra(p, m));
+        ;
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -108,16 +155,21 @@ public class InterfazBusqueda extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new InterfazBusqueda().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new InterfazBusqueda(g).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel pan;
+    private javax.swing.JTextField proteina1;
+    private javax.swing.JTextField proteina2;
+    private javax.swing.JTextField proteinas;
+    private javax.swing.JTextField ruta;
     // End of variables declaration//GEN-END:variables
 }
