@@ -4,19 +4,139 @@
  */
 package proyecto_1;
 
+import java.awt.BorderLayout;
+import org.graphstream.algorithm.util.FibonacciHeap;
+import org.graphstream.graph.Edge;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
+import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.swing_viewer.SwingViewer;
+import org.graphstream.ui.swing_viewer.ViewPanel;
+import org.graphstream.ui.view.Viewer;
+
 /**
  *
  * @author Nato
  */
 public class InterfazGrafo extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InterfazGrafo.class.getName());
+    static Grafo_Vertices g;
 
     /**
      * Creates new form InterfazGrafo
      */
-    public InterfazGrafo() {
+    public InterfazGrafo(Grafo_Vertices g) {
         initComponents();
+        this.g = g;
+        this.setVisible(true);
+this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        try{
+        this.imprimir();
+        }catch(Exception e){
+            
+        }
+    }
+
+    private void imprimir() {
+        if (g == null || g.getpFirst() == null) {
+            return;
+        }
+
+        System.setProperty("org.graphstream.ui", "swing");
+        Graph graph = new SingleGraph("BioGraph_Proteinas");
+
+        String stylesheet
+                = "graph { fill-color: #222222; }"
+                + "node { "
+                + "   text-size: 16px; "
+                + "   text-color: white; "
+                + "   size: 25px; "
+                + "   fill-color: #CCCCCC; "
+                + "   text-alignment: at-right; "
+                + "}"
+                + "edge { "
+                + "   fill-color: #666666; "
+                + "   text-size: 12px; "
+                + "   text-color: #AAAAAA; "
+                + "}";
+        graph.setAttribute("ui.stylesheet", stylesheet);
+
+        Nodo_Vertice vAux = g.getpFirst();
+        while (vAux != null) {
+            if (graph.getNode(vAux.getpDato()) == null) {
+                graph.addNode(vAux.getpDato()).setAttribute("ui.label", vAux.getpDato());
+            }
+            vAux = vAux.getpNext();
+        }
+
+        vAux = g.getpFirst();
+        int edgeId = 0;
+        while (vAux != null) {
+            Nodo_Arista aAux = vAux.getLista_Aristas().getpFirst();
+            while (aAux != null) {
+                String origen = vAux.getpDato();
+                String destino = aAux.getpData().getpDato();
+
+                if (graph.getEdge(origen + "-" + destino) == null
+                        && graph.getEdge(destino + "-" + origen) == null) {
+
+                    try {
+                        String idArista = origen + "-" + destino;
+                        Edge e = graph.addEdge(idArista, origen, destino, false); 
+                        e.setAttribute("ui.label", String.valueOf(aAux.getCosto_Interaccion()));
+                    } catch (Exception ex) {
+                    }
+                }
+                aAux = aAux.getpNext();
+            }
+            vAux = vAux.getpNext();
+        }
+
+        aplicarColoresPorComplejo(graph);
+        
+        Viewer viewer = new SwingViewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+        viewer.enableAutoLayout();
+        ViewPanel viewPanel = (ViewPanel) viewer.addDefaultView(false);
+
+        miPanel.removeAll();
+        miPanel.setLayout(new java.awt.BorderLayout());
+        miPanel.add(viewPanel, java.awt.BorderLayout.CENTER);
+        miPanel.revalidate();
+        miPanel.repaint();
+    }
+
+    private void aplicarColoresPorComplejo(Graph graph) {
+        String[] paleta = {"red", "blue", "green", "gold", "purple", "orange", "cyan", "pink"};
+        int colorIdx = 0;
+
+        g.reinicio();
+        Nodo_Vertice actual = g.getpFirst();
+
+        while (actual != null) {
+            if (!actual.visitado) {
+                String color = paleta[colorIdx % paleta.length];
+                marcarComponenteRecursivo(actual, color, graph);
+                colorIdx++;
+            }
+            actual = actual.getpNext();
+        }
+    }
+
+    private void marcarComponenteRecursivo(Nodo_Vertice nodo, String color, Graph graph) {
+        nodo.visitado = true;
+        org.graphstream.graph.Node n = graph.getNode(nodo.getpDato());
+        if (n != null) {
+            n.setAttribute("ui.style", "fill-color: " + color + ";");
+        }
+
+        Nodo_Arista arista = nodo.getLista_Aristas().getpFirst();
+        while (arista != null) {
+            if (!arista.getpData().visitado) {
+                marcarComponenteRecursivo(arista.getpData(), color, graph);
+            }
+            arista = arista.getpNext();
+        }
     }
 
     /**
@@ -28,31 +148,16 @@ public class InterfazGrafo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        miPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jButton1.setBackground(new java.awt.Color(153, 153, 153));
-        jButton1.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Regresar");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(802, 20, 160, 40));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 530));
+        miPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(miPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 530));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        Interfaz inter = new Interfaz();
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -76,11 +181,10 @@ public class InterfazGrafo extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new InterfazGrafo().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new InterfazGrafo(g).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel miPanel;
     // End of variables declaration//GEN-END:variables
 }
