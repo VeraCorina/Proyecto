@@ -174,28 +174,6 @@ public class Grafo_Vertices {
         return resultado;
     }
 
-    public String bfs() {
-        String recorrido = "";
-        Nodo_Vertice aux = this.pFirst;
-        Cola c = new Cola();
-        c.encolar(this.pFirst);
-        while (c.pFirst != null) {
-            recorrido += aux.getpDato() + ", ";
-            Nodo_Arista aux2 = aux.getLista_Aristas().getpFirst();
-
-            while (aux2 != null) {
-                if (!aux2.getpData().visitado) {
-                    aux2.getpData().visitado = true;
-                    c.encolar(aux2.getpData());
-                }
-                aux2 = aux2.getpNext();
-            }
-
-            aux = c.desencolar().getpDato();
-        }
-        this.reinicio();
-        return recorrido;
-    }
 
     public void reinicio() {
         Nodo_Vertice aux = this.pFirst;
