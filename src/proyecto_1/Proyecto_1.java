@@ -15,6 +15,8 @@ public class Proyecto_1 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Interfaz i = new Interfaz(new Grafo_Vertices());
+        
     }
     
 }
