@@ -75,16 +75,27 @@ public class Lista_Arista {
 
     public void eliminar(String pDato) {
         if (this.pFirst != null) {
-            Nodo_Arista pAux = this.getpFirst();
-            if (pAux.getpData().equals(pDato)) {
-                this.setpFirst(this.getpFirst().getpNext());
+            Nodo_Arista pAux = this.pFirst;
+
+            if (pAux.getpData().getpDato().equals(pDato)) {
+                this.pFirst = pAux.getpNext();
+                if (this.pFirst == null) {
+                    this.pLast = null;
+                }
+                this.pSize--;
             } else {
-                while (pAux.getpNext() != null && !pAux.getpNext().getpData().equals(pDato)) {
+
+                while (pAux.getpNext() != null && !pAux.getpNext().getpData().getpDato().equals(pDato)) {
                     pAux = pAux.getpNext();
                 }
 
                 if (pAux.getpNext() != null) {
+
+                    if (pAux.getpNext() == this.pLast) {
+                        this.pLast = pAux;
+                    }
                     pAux.setpNext(pAux.getpNext().getpNext());
+                    this.pSize--;
                 }
             }
         }
@@ -111,7 +122,7 @@ public class Lista_Arista {
         }
 
         while (pAux != null) {
-            listaStr += "[Destino: " + pAux.getpData() + " | Costo  Interaccion: " + pAux.getCosto_Interaccion()+ "]";
+            listaStr += "[Destino: " + pAux.getpData().getpDato() + " | Costo  Interaccion: " + pAux.getCosto_Interaccion()+ "]";
             
             pAux = pAux.getpNext();
 
