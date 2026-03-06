@@ -4,19 +4,26 @@
  */
 package proyecto_1;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Nato
  */
 public class ModifGrafo extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ModifGrafo.class.getName());
+    static Grafo_Vertices g;
 
     /**
      * Creates new form ModifGrafo
      */
-    public ModifGrafo() {
+    public ModifGrafo(Grafo_Vertices g) {
         initComponents();
+        this.g = g;
+                this.setVisible(true);
+
+        this.grafo.setText(g.imprimirGrafo());
     }
 
     /**
@@ -31,18 +38,18 @@ public class ModifGrafo extends javax.swing.JFrame {
         pan = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        peso = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        grafo = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        nombre = new javax.swing.JTextField();
+        inicio = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        otro = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -61,19 +68,20 @@ public class ModifGrafo extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Crear Relacion");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
         pan.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 530, -1, -1));
 
-        jTextField1.setBackground(new java.awt.Color(153, 153, 153));
-        jTextField1.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        pan.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 530, 110, -1));
+        peso.setBackground(new java.awt.Color(153, 153, 153));
+        peso.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
+        peso.setForeground(new java.awt.Color(255, 255, 255));
+        pan.add(peso, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 530, 110, -1));
 
-        jTextArea1.setBackground(new java.awt.Color(153, 153, 153));
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Verdana", 2, 18)); // NOI18N
-        jTextArea1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        grafo.setBackground(new java.awt.Color(153, 153, 153));
+        grafo.setColumns(20);
+        grafo.setFont(new java.awt.Font("Verdana", 2, 18)); // NOI18N
+        grafo.setForeground(new java.awt.Color(255, 255, 255));
+        grafo.setRows(5);
+        jScrollPane1.setViewportView(grafo);
 
         pan.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 210, -1, 360));
 
@@ -88,6 +96,7 @@ public class ModifGrafo extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Agregar");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
         pan.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 210, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Verdana", 3, 48)); // NOI18N
@@ -105,25 +114,26 @@ public class ModifGrafo extends javax.swing.JFrame {
         jLabel4.setText("Nombre de la Proteina");
         pan.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, -1, -1));
 
-        jTextField2.setBackground(new java.awt.Color(153, 153, 153));
-        jTextField2.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(255, 255, 255));
-        pan.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 270, -1));
+        nombre.setBackground(new java.awt.Color(153, 153, 153));
+        nombre.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
+        nombre.setForeground(new java.awt.Color(255, 255, 255));
+        pan.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 270, -1));
 
-        jTextField3.setBackground(new java.awt.Color(153, 153, 153));
-        jTextField3.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(255, 255, 255));
-        pan.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 270, -1));
+        inicio.setBackground(new java.awt.Color(153, 153, 153));
+        inicio.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
+        inicio.setForeground(new java.awt.Color(255, 255, 255));
+        inicio.addActionListener(this::inicioActionPerformed);
+        pan.add(inicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 270, -1));
 
         jLabel5.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Nombre de la Proteina");
         pan.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, -1, -1));
 
-        jTextField4.setBackground(new java.awt.Color(153, 153, 153));
-        jTextField4.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(255, 255, 255));
-        pan.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 450, 290, -1));
+        otro.setBackground(new java.awt.Color(153, 153, 153));
+        otro.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
+        otro.setForeground(new java.awt.Color(255, 255, 255));
+        pan.add(otro, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 450, 290, -1));
 
         jLabel6.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -137,9 +147,39 @@ public class ModifGrafo extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        Interfaz inter = new Interfaz();
+        Interfaz inter = new Interfaz(g);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String name = this.nombre.getText();
+        g.insertarVertice(name);
+        this.nombre.setText("");
+//        JOptionPane.showMessageDialog(rootPane, "Vertice añadido");
+        this.grafo.setText(g.imprimirGrafo());
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inicioActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String a = this.inicio.getText();
+        String o = this.otro.getText();
+        String p = this.peso.getText();
+        try {
+            g.insertarArista(a, o, Integer.parseInt(p));
+            this.grafo.setText(g.imprimirGrafo());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Peso invalido");
+
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,10 +203,12 @@ public class ModifGrafo extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new ModifGrafo().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new ModifGrafo(g).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea grafo;
+    private javax.swing.JTextField inicio;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -177,11 +219,9 @@ public class ModifGrafo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField nombre;
+    private javax.swing.JTextField otro;
     private javax.swing.JPanel pan;
+    private javax.swing.JTextField peso;
     // End of variables declaration//GEN-END:variables
 }
