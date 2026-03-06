@@ -98,38 +98,40 @@ public class Grafo_Vertices {
     }
 
     public void eliminarVertice(String pDato) {
-        if (this.pFirst != null) {
-            if (this.pFirst.getpDato().equals(pDato)) {
-                this.pFirst = this.pFirst.getpNext();
-                if (this.pFirst == null) {
-                    this.pLast = null;
-                } else {
-                    this.pFirst.anterior = null;
-                }
-                this.pSize--;
-            } else {
-                Nodo_Vertice pAux = this.pFirst;
-                while (pAux.getpNext() != null && !pAux.getpNext().getpDato().equals(pDato)) {
-                    pAux = pAux.getpNext();
-                }
-                if (pAux.getpNext() != null) {
-                    if (pAux.getpNext() == this.pLast) {
-                        this.pLast = pAux;
-                    }
-                    pAux.setpNext(pAux.getpNext().getpNext());
-                    if (pAux.getpNext() != null) {
-                        pAux.getpNext().anterior = pAux;
-                    }
-                    this.pSize--;
-                }
-            }
-
-            Nodo_Vertice pActual = this.pFirst;
-            while (pActual != null) {
-                pActual.getLista_Aristas().eliminar(pDato);
-                pActual = pActual.getpNext();
-            }
+        if (this.pFirst == null) {
+            return;
         }
+
+        Nodo_Vertice aEliminar = buscarVertice(pDato);
+        if (aEliminar == null) {
+            return;
+        }
+
+        if (aEliminar == pFirst) {
+            pFirst = pFirst.getpNext();
+            if (pFirst != null) {
+                pFirst.anterior = null;
+            } else {
+                pLast = null;
+            }
+        } else if (aEliminar == pLast) {
+            pLast = pLast.anterior;
+            if (pLast != null) {
+                pLast.setpNext(null);
+            } else {
+                pFirst = null;
+            }
+        } else {
+            aEliminar.anterior.setpNext(aEliminar.getpNext());
+            aEliminar.getpNext().anterior = aEliminar.anterior;
+        }
+
+        Nodo_Vertice pAux = this.pFirst;
+        while (pAux != null) {
+            pAux.getLista_Aristas().eliminar(pDato);
+            pAux = pAux.getpNext();
+        }
+        this.pSize--;
     }
 
     public String imprimirGrafo() {
@@ -139,41 +141,37 @@ public class Grafo_Vertices {
             return "";
         }
         while (pAux != null) {
-            resultado += "Vertice [" + pAux.getpDato() + "]: " + pAux.getLista_Aristas().verListaAristas() + "\n";
+            resultado += "[" + pAux.getpDato() + "]: " + pAux.getLista_Aristas().verListaAristas() + "\n";
             pAux = pAux.getpNext();
         }
         return resultado;
     }
 
     public String recorridoDFS() {
+        this.reinicio();
         String recorrido = "";
-
         Nodo_Vertice aux = this.pFirst;
-
         while (aux != null) {
             if (!aux.visitado) {
-                recorrido += this.dfs(recorrido, aux);
+                recorrido = this.dfs(recorrido, aux);
             }
             aux = aux.getpNext();
         }
         return recorrido;
     }
 
-    public String dfs(String resultado, Nodo_Vertice aux) {
-        resultado += aux.getpDato() + ", ";
+    private String dfs(String resultado, Nodo_Vertice aux) {
         aux.visitado = true;
-
-        Nodo_Arista aux2 = aux.getLista_Aristas().getpFirst();
-        while (aux2 != null) {
-            if (!aux2.getpData().visitado) {
-                resultado = this.dfs(resultado, aux2.getpData());
+        resultado += aux.getpDato() + ", ";
+        Nodo_Arista arista = aux.getLista_Aristas().getpFirst();
+        while (arista != null) {
+            if (!arista.getpData().visitado) {
+                resultado = dfs(resultado, arista.getpData());
             }
-            aux2 = aux2.getpNext();
+            arista = arista.getpNext();
         }
-        this.reinicio();
         return resultado;
     }
-
 
     public void reinicio() {
         Nodo_Vertice aux = this.pFirst;
@@ -181,7 +179,6 @@ public class Grafo_Vertices {
             aux.visitado = false;
             aux = aux.getpNext();
         }
-
     }
 
     public String dijkstra(String nombreOrigen, String nombreDestino) {
@@ -250,9 +247,9 @@ public class Grafo_Vertices {
         }
 
         this.reinicio();
-        return "Ruta Metabolica: " + ruta + "\nCosto Total: " + (int) destino.distancia;
+        return ruta + "\nCosto Total: " + (int) destino.distancia;
     }
-    
+
     public String identificarHubs() {
         if (this.pFirst == null) {
             return "vACIO";
@@ -261,7 +258,7 @@ public class Grafo_Vertices {
         Nodo_Vertice maxHub = this.pFirst;
         int maxGrado = this.pFirst.getLista_Aristas().getpSize();
 
-        String reporte = "REPORTE DE CENTRALIDAD DE GRADO (HUBS):\n";
+        String reporte = "\n";
         Nodo_Vertice aux = this.pFirst;
 
         while (aux != null) {
@@ -275,9 +272,51 @@ public class Grafo_Vertices {
             aux = aux.getpNext();
         }
 
-        reporte += "\nDIANA TERAPETICA PRIMARIA:\n";
+        reporte += "\n\n";
         reporte += "La proteina más esencial es " + maxHub.getpDato() + " con " + maxGrado + " conexiones";
-        
+
         return reporte;
+    }
+
+    public String ver_vertices() {
+        String vert = "";
+        Nodo_Vertice aux = this.pFirst;
+
+        while (aux != null) {
+            vert += aux.getpDato() + ", ";
+            aux = aux.getpNext();
+        }
+
+        return vert;
+    }
+
+    public String bfs() {
+        this.reinicio();
+        String recorrido = "";
+        Nodo_Vertice verticeInicial = this.pFirst;
+
+        while (verticeInicial != null) {
+            if (!verticeInicial.visitado) {
+                Cola c = new Cola();
+                verticeInicial.visitado = true;
+                c.encolar(verticeInicial);
+
+                while (c.pFirst != null) {
+                    Nodo_Vertice u = c.desencolar().getpDato();
+                    recorrido += u.getpDato() + ", ";
+
+                    Nodo_Arista aAux = u.getLista_Aristas().getpFirst();
+                    while (aAux != null) {
+                        if (!aAux.getpData().visitado) {
+                            aAux.getpData().visitado = true;
+                            c.encolar(aAux.getpData());
+                        }
+                        aAux = aAux.getpNext();
+                    }
+                }
+            }
+            verticeInicial = verticeInicial.getpNext();
+        }
+        return recorrido;
     }
 }
